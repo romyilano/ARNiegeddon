@@ -94,3 +94,20 @@ class GameViewController: UIViewController {
     return true
   }
 }
+
+//MARK: - ARSKViewDelegate
+extension GameViewController: ARSKViewDelegate {
+  func session(_ session: ARSession, didFailWithError error: Error) {
+    print("Session failed - probably due to lack of camera access")
+  }
+  
+  func sessionWasInterrupted(_ session: ARSession) {
+    print("ArSession was interrupted")
+  }
+  
+  func sessionInterruptionEnded(_ session: ARSession) {
+    print("Session resumed")
+    guard let sessionConfiguration = session.configuration else { return }
+    sceneView.session.run(sessionConfiguration, options: [.resetTracking, .removeExistingAnchors])
+  }
+}
