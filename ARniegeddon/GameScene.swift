@@ -45,12 +45,36 @@ class GameScene: SKScene {
     guard let currentFrame = sceneView.session.currentFrame else { return }
     
     isWorldSetup = true
+    
+    // set up a 4 dimensional matrix
+    var translation = matrix_identity_float4x4
+    translation.columns.3.z = -0.3
+    let transform = currentFrame.camera.transform * translation
+    
+    let anchor = ARAnchor(transform: transform)
+    sceneView.session.add(anchor: anchor)
   }
   
   //MARK: - Frame Lifecycle
   override func update(_ currentTime: TimeInterval) {
     if !isWorldSetup {
       setUpWorld()
+    }
+    
+    guard let currentFrame = sceneView.session.currentFrame, let lightEstimate = currentFrame.lightEstimate else {
+      return
+    }
+    
+    // Blending it into the background
+    let neutralIntensity: CGFloat = 1000
+    let ambientIntensity = min(lightEstimate.ambientIntensity, neutralIntensity)
+    let blendFactor = 1 - ambientIntensity / neutralIntensity
+    
+    for node in children {
+      if let bug = node as? SKSpriteNode {
+        bug.color = .red
+        bug.colorBlendFactor = blendFactor
+      }
     }
   }
 }

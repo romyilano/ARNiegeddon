@@ -106,4 +106,11 @@ extension GameViewController: ARSKViewDelegate {
     guard let sessionConfiguration = session.configuration else { return }
     sceneView.session.run(sessionConfiguration, options: [.resetTracking, .removeExistingAnchors])
   }
+  
+  func view(_ view: ARSKView, nodeFor anchor: ARAnchor) -> SKNode? {
+    let bug = SKSpriteNode(imageNamed: "bug")
+    bug.setScale(0.5)
+    bug.name = "bug"
+    return bug
+  }
 }
