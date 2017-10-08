@@ -31,13 +31,17 @@
 import UIKit
 import SpriteKit
 import GameplayKit
+import ARKit
 
 class GameViewController: UIViewController {
+  
+  var sceneView: ARSKView!
   
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    if let view = self.view as! SKView? {
+    if let view = self.view as? ARSKView {
+      sceneView = view
       // Load the SKScene from 'GameScene.sks'
       if let scene = SKScene(fileNamed: "GameScene") {
         // Set the scale mode to scale to fit the window
