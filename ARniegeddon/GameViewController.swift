@@ -36,7 +36,8 @@ import ARKit
 class GameViewController: UIViewController {
   
   var sceneView: ARSKView!
-  
+
+  //MARK: - View Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
     
@@ -58,6 +59,20 @@ class GameViewController: UIViewController {
     }
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    
+    let configuration = ARWorldTrackingConfiguration()
+    sceneView.session.run(configuration)
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    
+    sceneView.session.pause()
+  }
+  
+  //MARK: - ViewController overrides
   override var shouldAutorotate: Bool {
     return true
   }
