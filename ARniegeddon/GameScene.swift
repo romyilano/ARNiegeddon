@@ -39,6 +39,8 @@ class GameScene: SKScene {
     return view as! ARSKView
   }
   
+  var sight: SKSpriteNode!
+  
   var isWorldSetup = false
   
   private func setUpWorld() {
