@@ -64,10 +64,19 @@ class GameScene: SKScene {
         translation.columns.3.x = Float(positionX * gameSize.width)
         translation.columns.3.z = -Float(positionY * gameSize.height)
         
-        let transform = currentFrame.camera.transform * translation
-        let anchor = ARAnchor(transform: transform)
+        /*
+         drand48() creates a random value between 0 and 1. Here you step it down to create a random value between -0.5 and 0.5. Assigning it to the translation matrix means the bug will appear in a random position between half a meter above the position of the device and half a meter below the position of the device. For this game to work properly, it assumes the user is holding the device at least half a meter off the ground.
+         */
+        translation.columns.3.y = Float(drand48() - 0.5)
         
-        sceneView.session.add(anchor: anchor)
+        let transform = currentFrame.camera.transform * translation
+        let anchor = Anchor(transform: transform)
+        
+        if let name = node.name,
+          let type = NodeType(rawValue: name) {
+          anchor.type = type
+          sceneView.session.add(anchor: anchor)
+        }
       }
     }
     
@@ -100,6 +109,9 @@ class GameScene: SKScene {
   override func didMove(to view: SKView) {
     sight = SKSpriteNode(imageNamed: "sight")
     addChild(sight)
+    
+    // seeds the random number generator
+    srand48(Int(Date.timeIntervalSinceReferenceDate))
   }
   
   override func  touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

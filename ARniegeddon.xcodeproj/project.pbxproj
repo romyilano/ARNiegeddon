@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1C2987E81F89D64700D69367 /* Level1.sks in Resources */ = {isa = PBXBuildFile; fileRef = 1C2987E71F89D64700D69367 /* Level1.sks */; };
+		1C2987EA1F89DF7300D69367 /* ARAnchor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C2987E91F89DF7300D69367 /* ARAnchor.swift */; };
 		8288976D1F33F3920035005F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8288976C1F33F3920035005F /* AppDelegate.swift */; };
 		8288976F1F33F3920035005F /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 8288976E1F33F3920035005F /* GameScene.sks */; };
 		828897731F33F3920035005F /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828897721F33F3920035005F /* GameScene.swift */; };
@@ -28,6 +29,7 @@
 
 /* Begin PBXFileReference section */
 		1C2987E71F89D64700D69367 /* Level1.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Level1.sks; sourceTree = "<group>"; };
+		1C2987E91F89DF7300D69367 /* ARAnchor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARAnchor.swift; sourceTree = "<group>"; };
 		828897691F33F3910035005F /* ARniegeddon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ARniegeddon.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8288976C1F33F3920035005F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8288976E1F33F3920035005F /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -92,6 +94,7 @@
 				8297D4FE1F34836C00C42D1F /* Sounds */,
 				8288977B1F33F3940035005F /* LaunchScreen.storyboard */,
 				8288977E1F33F3940035005F /* Info.plist */,
+				1C2987E91F89DF7300D69367 /* ARAnchor.swift */,
 			);
 			path = ARniegeddon;
 			sourceTree = "<group>";
@@ -194,6 +197,7 @@
 				828897731F33F3920035005F /* GameScene.swift in Sources */,
 				828897751F33F3930035005F /* GameViewController.swift in Sources */,
 				8288976D1F33F3920035005F /* AppDelegate.swift in Sources */,
+				1C2987EA1F89DF7300D69367 /* ARAnchor.swift in Sources */,
 				8297D5121F3487F700C42D1F /* Types.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
