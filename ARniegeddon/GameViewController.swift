@@ -41,22 +41,18 @@ class GameViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    if let view = self.view as? ARSKView {
-      sceneView = view
-      // Load the SKScene from 'GameScene.sks'
-      if let scene = SKScene(fileNamed: "GameScene") {
-        // Set the scale mode to scale to fit the window
-        scene.scaleMode = .aspectFill
-        
-        // Present the scene
-        view.presentScene(scene)
-      }
-      
-      view.ignoresSiblingOrder = true
-      
-      view.showsFPS = true
-      view.showsNodeCount = true
-    }
+    guard let view = self.view as? ARSKView else { return }
+    
+    sceneView = view
+    sceneView.delegate = self
+    let scene = GameScene(size: view.bounds.size)
+    
+    scene.scaleMode = .resizeFill
+    scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+    view.presentScene(scene)
+    
+    view.showsFPS = true
+    view.showsNodeCount = true
   }
   
   override func viewWillAppear(_ animated: Bool) {
