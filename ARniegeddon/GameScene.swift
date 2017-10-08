@@ -48,17 +48,30 @@ class GameScene: SKScene {
   var isWorldSetup = false
   
   private func setUpWorld() {
-    guard let currentFrame = sceneView.session.currentFrame else { return }
+    guard let currentFrame = sceneView.session.currentFrame, let scene = SKScene(fileNamed: "Level1") else { return }
+    
+    for node in scene.children {
+      if let node = node as? SKSpriteNode {
+        var translation = matrix_identity_float4x4
+        
+        // calculate the position of the node relative to the size of the scene
+        // ARKit translations are measured in meters.
+        // Turning 2D into 3D you use the y-coordinate of the 2D scene as the z-coordinate in 3D space
+        // using these values, you create the anchor and the view's delegate that will add the SKSpriteNode bug for each anchor as before
+        let positionX = node.position.x / scene.size.width
+        let positionY = node.position.y / scene.size.height
+        
+        translation.columns.3.x = Float(positionX * gameSize.width)
+        translation.columns.3.z = -Float(positionY * gameSize.height)
+        
+        let transform = currentFrame.camera.transform * translation
+        let anchor = ARAnchor(transform: transform)
+        
+        sceneView.session.add(anchor: anchor)
+      }
+    }
     
     isWorldSetup = true
-    
-    // set up a 4 dimensional matrix
-    var translation = matrix_identity_float4x4
-    translation.columns.3.z = -0.3
-    let transform = currentFrame.camera.transform * translation
-    
-    let anchor = ARAnchor(transform: transform)
-    sceneView.session.add(anchor: anchor)
   }
   
   //MARK: - Frame Lifecycle
