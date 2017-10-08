@@ -41,6 +41,10 @@ class GameScene: SKScene {
   
   var sight: SKSpriteNode!
   
+  // determines real-world area you are playing in
+  // 2 x 2 meter space with you in the middle
+  let gameSize = CGSize(width: 2, height: 2)
+  
   var isWorldSetup = false
   
   private func setUpWorld() {
