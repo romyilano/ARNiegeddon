@@ -30,8 +30,28 @@
 
 import SpriteKit
 import GameplayKit
+import ARKit
 
 class GameScene: SKScene {
-
+  
+  //MARK: - Convenience property
+  var sceneView: ARSKView {
+    return view as! ARSKView
+  }
+  
+  var isWorldSetup = false
+  
+  private func setUpWorld() {
+    guard let currentFrame = sceneView.session.currentFrame else { return }
+    
+    isWorldSetup = true
+  }
+  
+  //MARK: - Frame Lifecycle
+  override func update(_ currentTime: TimeInterval) {
+    if !isWorldSetup {
+      setUpWorld()
+    }
+  }
 }
 
