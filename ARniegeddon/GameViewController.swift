@@ -108,7 +108,7 @@ extension GameViewController: ARSKViewDelegate {
   }
   
   func view(_ view: ARSKView, nodeFor anchor: ARAnchor) -> SKNode? {
-    let bug = SKSpriteNode(imageNamed: "bug")
+    let bug = SKSpriteNode(imageNamed: "crateKittyMarker")
     bug.setScale(0.5)
     bug.name = "bug"
     return bug
