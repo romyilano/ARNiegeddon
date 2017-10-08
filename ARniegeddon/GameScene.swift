@@ -47,6 +47,13 @@ class GameScene: SKScene {
   
   var isWorldSetup = false
   
+  var hasBugspray = false {
+    didSet {
+      let sightImageName = hasBugspray ? "bugspraySight" : "sight"
+      sight.texture = SKTexture(imageNamed: sightImageName)
+    }
+  }
+  
   private func setUpWorld() {
     guard let currentFrame = sceneView.session.currentFrame, let scene = SKScene(fileNamed: "Level1") else { return }
     
@@ -76,6 +83,9 @@ class GameScene: SKScene {
           let type = NodeType(rawValue: name) {
           anchor.type = type
           sceneView.session.add(anchor: anchor)
+          if anchor.type == .firebug {
+            addBugSpray(to: currentFrame)
+          }
         }
       }
     }
@@ -104,6 +114,21 @@ class GameScene: SKScene {
         bug.colorBlendFactor = blendFactor
       }
     }
+    
+    for anchor in currentFrame.anchors {
+      guard let node = sceneView.node(for: anchor), node.name == NodeType.bugspray.rawValue else {
+        continue
+      }
+      
+      // ARKit includes the framework simd which provides a distance function. You use this to calc the distance between the anchor and the camera
+      let distance = simd_distance(anchor.transform.columns.3, currentFrame.camera.transform.columns.3)
+      
+      // less than 10 cm remove the anchor from teh session
+      if distance < 0.1 {
+        remove(bugspray: anchor)
+        break
+      }
+    }
   }
   
   override func didMove(to view: SKView) {
@@ -121,9 +146,8 @@ class GameScene: SKScene {
     
     var hitBug: SKNode?
     for node in hitNodes {
-      if node.name == "bug" {
-        hitBug = node
-        break
+      if node.name == NodeType.bug.rawValue || (node.name == NodeType.firebug.rawValue && hasBugspray) {
+        hasBugspray = false
       }
     }
     
@@ -137,6 +161,26 @@ class GameScene: SKScene {
       let sequence = [SKAction.wait(forDuration: 0.3), group]
       hitBug.run(SKAction.sequence(sequence))
     }
+  }
+  
+  //MARK: - Private Methods
+  private func addBugSpray(to currentFrame: ARFrame) {
+    var translation = matrix_identity_float4x4
+    translation.columns.3.x = Float(drand48() * 2 - 1)
+    translation.columns.3.z = Float(drand48() * 2 - 1)
+    translation.columns.3.y = Float(drand48() - 0.5)
+    
+    let transform = currentFrame.camera.transform * translation
+    let anchor = Anchor(transform: transform)
+    
+    anchor.type = .bugspray
+    sceneView.session.add(anchor: anchor)
+  }
+  
+  private func remove(bugspray anchor: ARAnchor) {
+    run(Sounds.bugspray)
+    sceneView.session.remove(anchor: anchor)
+    hasBugspray = true
   }
 }
 
